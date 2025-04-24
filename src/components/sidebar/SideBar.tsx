@@ -1,0 +1,146 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Fixed: useRouter should be from 'react-router-dom'
+import { useAuth } from "../context/authContext";
+import ToggleBarButton from "./tooglebarButton";
+import { FiLogOut } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
+import BlackLogo from "/src/assets/logo.png";
+import { SiTask } from "react-icons/si";
+
+
+interface SidebarProps {}
+
+const Sidebar: React.FC<SidebarProps> = () => {
+  const [tooltip, setTooltip] = useState<string | null>(null);
+  const { barWidth, setBarWidth, setPageTitle } = useAuth();
+  const navigate = useNavigate();
+  const toggleBar = barWidth ? "w-[250px]" : "w-[50px]";
+
+  const handleLogout = (): void => {
+    localStorage.clear();
+    navigate("/login");
+  };
+
+  return (
+    <div
+      className={`fixed top-0 left-0 ${toggleBar} h-full bg-gray-100 transition-all duration-300 ease-linear`}
+    >
+      <div className="relative z-0 h-full p-3">
+        {window.innerWidth > 768 && (
+          <ToggleBarButton barWidth={barWidth} setBarWidth={setBarWidth} />
+        )}
+
+        {barWidth ? (
+          <>
+            <Link to={"/"}>
+              <img className="mx-auto bg-black" src={BlackLogo} alt="Logo" />
+            </Link>
+            <ul className="mt-10">
+              <Link
+                onClick={() => {
+                  setPageTitle("Users");
+                }}
+                to={"/taskmanager/users"}
+              >
+                <li className="border-b-2 border-gray-50 px-2 py-3 uppercase flex items-center justify-start gap-5">
+                  <CgProfile />
+                  <p>Users</p>
+                </li>
+              </Link>
+            </ul>
+          </>
+        ) : (
+          <>
+            <Link to={"/"}>
+              <img className="mx-auto" src={"/vite.svg"} alt="Favicon" />
+            </Link>
+            <ul className="mt-10">
+              <li
+                className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5"
+              >
+                <div onClick={() => setTooltip("users")}>
+                  <CgProfile />
+                </div>
+
+                {tooltip === "users" && (
+                  <div className="absolute -right-5 translate-x-full mt-2 w-32 text-center bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      <Link
+                        onClick={() => {
+                          setPageTitle("Users");
+                          setTooltip(null);
+                        }}
+                        to={"/taskmanager/users"}
+                      >
+                        <div>Hello</div>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </li>
+            </ul>
+          </>
+        )}
+        {barWidth ? (
+          <>
+            <ul className="mt-10">
+              <Link
+                onClick={() => {
+                  setPageTitle("Task");
+                }}
+                to={"/taskmanager/task"}
+              >
+                <li className="border-b-2 border-gray-50 px-2 py-3 uppercase flex items-center justify-start gap-5">
+                  <SiTask />
+                  <p>Task</p>
+                </li>
+              </Link>
+            </ul>
+          </>
+        ) : (
+          <>
+            <ul className="mt-10">
+              <li
+                className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5"
+              >
+                <div onClick={() => setTooltip("task")}>
+                  <SiTask />
+                </div>
+
+                {tooltip === "task" && (
+                  <div className="absolute -right-5 translate-x-full mt-2 w-32 text-center bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      <Link
+                        onClick={() => {
+                          setPageTitle("Users");
+                          setTooltip(null);
+                        }}
+                        to={"/taskmanager/users"}
+                      >
+                        <div>heloo</div>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </li>
+            </ul>
+          </>
+        )}
+
+        <div className="absolute bottom-0 left-0 p-3 w-full">
+          <button
+            className={`flex items-center justify-center gap-2 w-full ${
+              barWidth ? "bg-red-500 py-2 px-3 rounded text-white" : ""
+            }`}
+            onClick={handleLogout}
+          >
+            <FiLogOut />
+            <p className={`${barWidth ? "block" : "hidden"}`}>Logout</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
