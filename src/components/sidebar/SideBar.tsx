@@ -4,7 +4,7 @@ import { useAuth } from "../context/authContext";
 import ToggleBarButton from "./tooglebarButton";
 import { FiLogOut } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-import BlackLogo from "/src/assets/logo.png";
+import { ImJoomla } from "react-icons/im";
 import { SiTask } from "react-icons/si";
 
 
@@ -33,7 +33,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         {barWidth ? (
           <>
             <Link to={"/"}>
-              <img className="mx-auto bg-black" src={BlackLogo} alt="Logo" />
+              <ImJoomla className="mx-auto text-green-600 text-6xl mt-5 animate-ease-spin"/>
             </Link>
             <ul className="mt-10">
               <Link
@@ -52,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         ) : (
           <>
             <Link to={"/"}>
-              <img className="mx-auto" src={"/vite.svg"} alt="Favicon" />
+            <ImJoomla className="mx-auto text-green-600 text-2xl mt-5 animate-ease-spin"/>
             </Link>
             <ul className="mt-10">
               <li
@@ -84,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         {barWidth ? (
           <>
             <ul className="mt-10">
-              <Link
+              <Link className="transform transition-all duration-300 ease-out scale-95 animate-fade-in"
                 onClick={() => {
                   setPageTitle("Task");
                 }}

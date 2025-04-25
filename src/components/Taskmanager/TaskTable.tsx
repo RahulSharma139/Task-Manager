@@ -48,7 +48,8 @@ const TaskTable: React.FC = () => {
 
   const handleAddTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!newTaskName.trim() || !newTaskTag.trim() || !newTaskTime.trim()) return;
+    if (!newTaskName.trim() || !newTaskTag.trim() || !newTaskTime.trim())
+      return;
 
     const newTask: Task = {
       name: newTaskName.trim(),
@@ -97,8 +98,10 @@ const TaskTable: React.FC = () => {
   return (
     <Layout>
       <div className="bg-gradient-to-r from-slate-400 to-gray-800 min-h-screen py-10 text-white">
-        <div className="max-w-7xl mx-auto p-6 bg-gradient-to-r from-stone-600 to-stone-900 rounded shadow-lg h-[800px] ">
-          <h2 className="text-2xl font-semibold text-black mb-4">Task Manager</h2>
+        <div className="max-w-7xl mx-auto p-6 bg-gradient-to-r from-stone-600 to-stone-900 rounded shadow-lg h-[800px] transform transition-all duration-300 ease-out scale-95 animate-fade-in ">
+          <h2 className="text-2xl font-semibold text-black mb-4">
+            Task Manager
+          </h2>
 
           {/* Add Button */}
           <div className="flex justify-end mb-4">

@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
+import SignUpImg from "../assets/signup-img.jpg"
 
 type LoginFormInputs = {
   email: string;
@@ -20,16 +21,17 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="container rounded-lg shadow-md h-[900px] pl-10">
-      <div className="grid grid-cols-2 items-center justify-center h-screen">
-        <div className="rounded-2xl shadow-lg p-4 ml-24 w-[500px]">
+   <div className="bg-black bg-opacity-80 h-screen">
+     <div className="container rounded-lg shadow-md h-[900px] pl-10">
+      <div className="grid grid-cols-2 items-center justify-center h-screen ">
+        <div className="rounded-2xl shadow-2xl p-4 ml-24 w-[500px] bg-gradient-to-r from-stone-600 to-stone-900">
           <h2 className="font-bold text-center text-6xl pb-4 text-green-600">
             Login
           </h2>
           <form className="space-y-4 animate-fade-in" onSubmit={handleSubmit(onSubmit)}>
             {/* Email Field */}
             <div>
-              <label className="block font-medium" htmlFor="email">
+              <label className="block font-medium text-white mb-2" htmlFor="email">
                 Email
               </label>
               <input
@@ -50,7 +52,7 @@ const LoginForm: React.FC = () => {
 
             {/* Password Field */}
             <div>
-              <label className="block font-medium" htmlFor="password">
+              <label className="block font-medium text-white mb-2" htmlFor="password">
                 Password
               </label>
               <input
@@ -75,25 +77,26 @@ const LoginForm: React.FC = () => {
             >
               Login
             </button>
-            <div className="text-center  ">
-              <span>
-                I don't have a Account{" "}
+            <div className="flex items-center justify-center gap-2">
+              <p className="text-white">
+                I don't have a Account
+              </p>
                 <Link className="text-blue-600" to="/signup">
                   Create a account
                 </Link>
-              </span>
             </div>
           </form>
         </div>
         <div>
           <img
-            className="w-full h-[800px] animate-pulse"
-            src="src/assets/LoginImg.png"
+            className="w-full h-[800px] animate-pulse text-white"
+            src={SignUpImg}
             alt="loginImg"
           />
         </div>
       </div>
     </div>
+   </div>
   );
 };
 
