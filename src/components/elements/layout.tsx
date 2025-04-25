@@ -11,10 +11,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   
   return (
     <div>
-      <div>
+      <div >
         <Sidebar/> 
       </div>
-      <div>
+      <div >
        
         {children}
       

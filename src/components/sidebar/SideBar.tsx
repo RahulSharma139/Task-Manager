@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 ${toggleBar} h-full bg-gray-100 transition-all duration-300 ease-linear`}
+      className={`fixed top-0 left-0 ${toggleBar} h-full bg-gray-900 transition-all duration-300 ease-linear`}
     >
       <div className="relative z-0 h-full p-3">
         {window.innerWidth > 768 && (
@@ -43,8 +43,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 to={"/taskmanager/users"}
               >
                 <li className="border-b-2 border-gray-50 px-2 py-3 uppercase flex items-center justify-start gap-5">
-                  <CgProfile />
-                  <p>Users</p>
+                  <CgProfile className="text-white text-3xl" />
+                  <p className="text-white font-bold">Users</p>
                 </li>
               </Link>
             </ul>
@@ -59,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5"
               >
                 <div onClick={() => setTooltip("users")}>
-                  <CgProfile />
+                  <CgProfile className="text-white text-3xl" />
                 </div>
 
                 {tooltip === "users" && (
@@ -91,8 +91,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 to={"/taskmanager/task"}
               >
                 <li className="border-b-2 border-gray-50 px-2 py-3 uppercase flex items-center justify-start gap-5">
-                  <SiTask />
-                  <p>Task</p>
+                  <SiTask className="text-white text-3xl" />
+                  <p className="text-white font-bold">Task</p>
                 </li>
               </Link>
             </ul>
@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5"
               >
                 <div onClick={() => setTooltip("task")}>
-                  <SiTask />
+                  <SiTask className="text-white text-3xl"/>
                 </div>
 
                 {tooltip === "task" && (
@@ -134,7 +134,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             }`}
             onClick={handleLogout}
           >
-            <FiLogOut />
+            <FiLogOut className="text-white text-3xl" />
             <p className={`${barWidth ? "block" : "hidden"}`}>Logout</p>
           </button>
         </div>

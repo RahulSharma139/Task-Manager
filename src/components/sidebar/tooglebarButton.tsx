@@ -10,9 +10,9 @@ interface ToggleBarButtonProps {
 const ToggleBarButton: React.FC<ToggleBarButtonProps> = ({ barWidth, setBarWidth }) => {
   return (
     <>
-      <div className="absolute top-0 right-0 border-orange-300 border-r-2 w-0.5 h-full" />
+      <div className="absolute top-0 right-0 border-green-600 border-r-2 w-0.5 h-full" />
       <button
-        className="absolute top-2.5 -right-3 bg-orange-300 w-6 h-6 rounded-full flex items-center justify-center"
+        className="absolute top-10 -right-3 bg-green-500 w-6 h-6 rounded-full flex items-center justify-center"
         onClick={() => setBarWidth(!barWidth)}
       >
         {barWidth ? (

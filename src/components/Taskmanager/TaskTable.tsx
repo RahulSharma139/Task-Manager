@@ -1,179 +1,263 @@
 import React, { useState, FormEvent } from "react";
-import { FaEdit, FaTrash, FaCheck, FaPlus, FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
+import {
+  FaEdit,
+  FaTrash,
+  FaCheck,
+  FaPlus,
+  FaSortAlphaDown,
+  FaSortAlphaUp,
+} from "react-icons/fa";
 import Layout from "../elements/layout";
 
-// Task type
 interface Task {
-  id: number;
   name: string;
+  tag: string;
+  time: string;
 }
 
 const TaskTable: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, name: "Create login page" },
-    { id: 2, name: "Connect to backend" },
-    { id: 3, name: "Setup MongoDB" },
+    {
+      name: "Create login page",
+      tag: "Urgent",
+      time: "2025-04-21 10:00",
+    },
+    {
+      name: "Connect to backend",
+      tag: "Medium",
+      time: "2025-04-22 12:30",
+    },
+    {
+      name: "Setup MongoDB",
+      tag: "Low",
+      time: "2025-04-23 14:00",
+    },
   ]);
 
-  const [newTaskName, setNewTaskName] = useState<string>("");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isAsc, setIsAsc] = useState<boolean>(true);
-  const [editTaskId, setEditTaskId] = useState<number | null>(null);
-  const [editName, setEditName] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newTaskName, setNewTaskName] = useState("");
+  const [newTaskTag, setNewTaskTag] = useState("");
+  const [newTaskTime, setNewTaskTime] = useState("");
 
-  // Add Task
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterTag, setFilterTag] = useState("");
+  const [filterTime, setFilterTime] = useState("");
+  const [isAsc, setIsAsc] = useState(true);
+  const [editTaskIndex, setEditTaskIndex] = useState<number | null>(null);
+  const [editName, setEditName] = useState("");
+
   const handleAddTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!newTaskName.trim()) return;
+    if (!newTaskName.trim() || !newTaskTag.trim() || !newTaskTime.trim()) return;
 
     const newTask: Task = {
-      id: Date.now(),
       name: newTaskName.trim(),
+      tag: newTaskTag.trim(),
+      time: newTaskTime.trim(),
     };
 
     setTasks([newTask, ...tasks]);
     setNewTaskName("");
+    setNewTaskTag("");
+    setNewTaskTime("");
+    setIsModalOpen(false);
   };
 
-  // Edit Task
-  const handleEdit = (task: Task): void => {
-    setEditTaskId(task.id);
-    setEditName(task.name);
+  const handleEdit = (index: number): void => {
+    setEditTaskIndex(index);
+    setEditName(tasks[index].name);
   };
 
-  // Save Edited Task
-  const handleSave = (taskId: number): void => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === taskId ? { ...task, name: editName } : task
-      )
-    );
-    setEditTaskId(null);
+  const handleSave = (index: number): void => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].name = editName;
+    setTasks(updatedTasks);
+    setEditTaskIndex(null);
   };
 
-  // Delete Task
-  const handleDelete = (taskId: number): void => {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+  const handleDelete = (index: number): void => {
+    setTasks(tasks.filter((_, i) => i !== index));
   };
 
-  // Toggle Sorting
   const toggleSort = (): void => {
     setIsAsc(!isAsc);
   };
 
-  // Filtered & Sorted Tasks
   const displayedTasks = tasks
-    .filter((task) =>
-      task.name.toLowerCase().includes(searchQuery.toLowerCase())
+    .filter(
+      (task) =>
+        task.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        task.tag.toLowerCase().includes(filterTag.toLowerCase()) &&
+        task.time.toLowerCase().includes(filterTime.toLowerCase())
     )
     .sort((a, b) =>
-      isAsc
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
+      isAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
     );
 
   return (
     <Layout>
-      <div className="overflow-x-auto mt-10 p-4 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4">Task Manager</h2>
+      <div className="bg-gradient-to-r from-slate-400 to-gray-800 min-h-screen py-10 text-white">
+        <div className="max-w-7xl mx-auto p-6 bg-gradient-to-r from-stone-600 to-stone-900 rounded shadow-lg h-[800px] ">
+          <h2 className="text-2xl font-semibold text-black mb-4">Task Manager</h2>
 
-        {/* Add Task */}
-        <form onSubmit={handleAddTask} className="flex gap-4 mb-4">
-          <input
-            type="text"
-            value={newTaskName}
-            onChange={(e) => setNewTaskName(e.target.value)}
-            placeholder="Enter new task"
-            className="border px-3 py-2 w-full rounded-md focus:ring-2 focus:ring-blue-400"
-          />
-          <button
-            type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center gap-2"
-          >
-            <FaPlus /> Add
-          </button>
-        </form>
+          {/* Add Button */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center gap-2"
+            >
+              <FaPlus /> Add Task
+            </button>
+          </div>
 
-        {/* Search + Sort */}
-        <div className="flex items-center justify-between mb-4">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search tasks..."
-            className="border px-3 py-2 w-full rounded-md focus:ring-2 focus:ring-blue-400"
-          />
-          <button
-            onClick={toggleSort}
-            className="ml-4 text-blue-600 hover:text-blue-800"
-            title="Toggle Sort"
-          >
-            {isAsc ? <FaSortAlphaDown /> : <FaSortAlphaUp />}
-          </button>
+          {/* Filters */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search name"
+              className="border px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-400 outline-none text-black"
+            />
+            <input
+              type="text"
+              value={filterTag}
+              onChange={(e) => setFilterTag(e.target.value)}
+              placeholder="Filter by Tag"
+              className="border px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-400 outline-none text-black"
+            />
+            <input
+              type="text"
+              value={filterTime}
+              onChange={(e) => setFilterTime(e.target.value)}
+              placeholder="Filter by Time"
+              className="border px-3 py-2 rounded-md focus:ring-2 focus:ring-blue-400 outline-none text-black"
+            />
+          </div>
+
+          {/* Sort Toggle */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={toggleSort}
+              className="text-blue-300 hover:text-blue-500"
+              title="Toggle Sort"
+            >
+              {isAsc ? <FaSortAlphaDown /> : <FaSortAlphaUp />}
+            </button>
+          </div>
+
+          {/* Table */}
+          <table className="min-w-full border border-gray-300 shadow rounded-md">
+            <thead className="text-black bg-gray-100">
+              <tr>
+                <th className="p-3 text-left">#</th>
+                <th className="p-3 text-left">Task Name</th>
+                <th className="p-3 text-left">Tag</th>
+                <th className="p-3 text-left">Time</th>
+                <th className="p-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {displayedTasks.length > 0 ? (
+                displayedTasks.map((task, index) => (
+                  <tr key={index} className="border-t hover:bg-gray-700">
+                    <td className="p-3">{index + 1}</td>
+                    <td className="p-3">
+                      {editTaskIndex === index ? (
+                        <input
+                          type="text"
+                          value={editName}
+                          onChange={(e) => setEditName(e.target.value)}
+                          className="border rounded px-2 py-1 w-full text-black"
+                        />
+                      ) : (
+                        task.name
+                      )}
+                    </td>
+                    <td className="p-3">{task.tag}</td>
+                    <td className="p-3">{task.time}</td>
+                    <td className="p-3 flex justify-end gap-2">
+                      {editTaskIndex === index ? (
+                        <button
+                          onClick={() => handleSave(index)}
+                          className="text-green-400 hover:text-green-600"
+                        >
+                          <FaCheck />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleEdit(index)}
+                          className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 flex items-center gap-2"
+                        >
+                          <FaEdit /> Edit
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDelete(index)}
+                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 flex items-center gap-2"
+                      >
+                        <FaTrash /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="p-3 text-center text-white">
+                    No matching tasks found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
-        {/* Table */}
-        <table className="min-w-full border border-gray-300 shadow rounded-md">
-          <thead>
-            <tr className="bg-gray-200 ">
-              <th className="p-3 text-left">Task Name</th>
-              <th className="py-3 pr-6 text-end">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayedTasks.map((task) => (
-              <tr key={task.id} className="border-t hover:bg-gray-50">
-                <td className="p-3">
-                  {editTaskId === task.id ? (
-                    <input
-                      type="text"
-                      value={editName}
-                      onChange={(e) => setEditName(e.target.value)}
-                      className="border rounded px-2 py-1 w-full"
-                    />
-                  ) : (
-                    task.name
-                  )}
-                </td>
-                <td className="p-3 flex gap-4 justify-end">
-                  {editTaskId === task.id ? (
-                    <button
-                      onClick={() => handleSave(task.id)}
-                      className="text-green-600 hover:text-green-800"
-                      aria-label="Save task"
-                    >
-                      <FaCheck />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleEdit(task)}
-                      className="text-white bg-green-700 flex items-center px-3 hover:text-blue-800"
-                      aria-label="Edit task"
-                    >
-                      <FaEdit />
-                      Edit
-                    </button>
-                  )}
+        {/* Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 transition-opacity duration-300 ease-in-out">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full text-black transform transition-all duration-300 ease-out scale-95 animate-fade-in">
+              <h3 className="text-xl font-bold mb-4">Add New Task</h3>
+              <form onSubmit={handleAddTask} className="space-y-4">
+                <input
+                  type="text"
+                  value={newTaskName}
+                  onChange={(e) => setNewTaskName(e.target.value)}
+                  placeholder="Task Name"
+                  className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-400 outline-none"
+                />
+                <input
+                  type="text"
+                  value={newTaskTag}
+                  onChange={(e) => setNewTaskTag(e.target.value)}
+                  placeholder="Tag (e.g., Urgent)"
+                  className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-400 outline-none"
+                />
+                <input
+                  type="text"
+                  value={newTaskTime}
+                  onChange={(e) => setNewTaskTime(e.target.value)}
+                  placeholder="Time (e.g., 2025-04-25 15:30)"
+                  className="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-400 outline-none"
+                />
+                <div className="flex justify-end gap-2">
                   <button
-                    onClick={() => handleDelete(task.id)}
-                    className="text-white bg-red-600 flex items-center px-3 hover:text-red-800"
-                    aria-label="Delete task"
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-600"
                   >
-                    <FaTrash />
-                    Delete
+                    Cancel
                   </button>
-                </td>
-              </tr>
-            ))}
-            {displayedTasks.length === 0 && (
-              <tr>
-                <td colSpan={2} className="p-3 text-center text-gray-500">
-                  No matching tasks found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                  >
+                    Add Task
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
