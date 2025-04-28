@@ -7,7 +7,6 @@ import { CgProfile } from "react-icons/cg";
 import { ImJoomla } from "react-icons/im";
 import { SiTask } from "react-icons/si";
 
-
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
@@ -33,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         {barWidth ? (
           <>
             <Link to={"/"}>
-              <ImJoomla className="mx-auto text-green-600 text-6xl mt-5 animate-ease-spin"/>
+              <ImJoomla className="mx-auto text-green-600 text-6xl mt-5 animate-ease-spin" />
             </Link>
             <ul className="mt-10">
               <Link
@@ -52,17 +51,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
         ) : (
           <>
             <Link to={"/"}>
-            <ImJoomla className="mx-auto text-green-600 text-2xl mt-5 animate-ease-spin"/>
+              <ImJoomla className="mx-auto text-green-600 text-2xl mt-5 animate-ease-spin" />
             </Link>
             <ul className="mt-10">
-              <li
-                className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5"
-              >
+              <li className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5">
                 <div onClick={() => setTooltip("users")}>
                   <CgProfile className="text-white text-3xl" />
                 </div>
 
-                {tooltip === "users" && (
+                {/* {tooltip === "users" && (
                   <div className="absolute -right-5 translate-x-full mt-2 w-32 text-center bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <Link
@@ -72,11 +69,10 @@ const Sidebar: React.FC<SidebarProps> = () => {
                         }}
                         to={"/taskmanager/users"}
                       >
-                        <div>Hello</div>
                       </Link>
                     </div>
                   </div>
-                )}
+                )} */}
               </li>
             </ul>
           </>
@@ -84,7 +80,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
         {barWidth ? (
           <>
             <ul className="mt-10">
-              <Link className="transform transition-all duration-300 ease-out scale-95 animate-fade-in"
+              <Link
+                className="transform transition-all duration-300 ease-out scale-95 animate-fade-in"
                 onClick={() => {
                   setPageTitle("Task");
                 }}
@@ -100,29 +97,28 @@ const Sidebar: React.FC<SidebarProps> = () => {
         ) : (
           <>
             <ul className="mt-10">
-              <li
-                className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5"
-              >
-                <div onClick={() => setTooltip("task")}>
-                  <SiTask className="text-white text-3xl"/>
-                </div>
-
-                {tooltip === "task" && (
-                  <div className="absolute -right-5 translate-x-full mt-2 w-32 text-center bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-                      <Link
-                        onClick={() => {
-                          setPageTitle("Users");
-                          setTooltip(null);
-                        }}
-                        to={"/taskmanager/users"}
-                      >
-                        <div>heloo</div>
-                      </Link>
-                    </div>
+              <Link to={"/taskmanager/task"}>
+                <li className="relative border-b-2 border-gray-50 py-3 uppercase flex items-center justify-center gap-5">
+                  <div onClick={() => setTooltip("task")}>
+                    <SiTask className="text-white text-3xl" />
                   </div>
-                )}
-              </li>
+
+                  {/* {tooltip === "task" && (
+                  <div className="absolute -right-5 translate-x-full mt-2 w-32 ">
+                  <div className="py-1">
+                  <Link
+                  onClick={() => {
+                    setPageTitle("task");
+                    setTooltip(null);
+                    }}
+                    to={"/taskmanager/task"}
+                    >
+                    </Link>
+                    </div>
+                    </div>
+                    )} */}
+                </li>
+              </Link>
             </ul>
           </>
         )}

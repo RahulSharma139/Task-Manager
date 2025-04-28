@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<Navigate to="/taskmanager" />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
-          <Route path="/taskmanager" element={<Page/>} />
+          <Route path="/taskmanager" element={<Page />} />
           <Route path="/taskmanager/task" element={<TaskTable />} />
         </Routes>
       </Router>
