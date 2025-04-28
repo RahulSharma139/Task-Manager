@@ -59,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                   <CgProfile className="text-white text-3xl" />
                 </div>
 
-                {/* {tooltip === "users" && (
+                {tooltip === "users" && (
                   <div className="absolute -right-5 translate-x-full mt-2 w-32 text-center bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <Link
@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                       </Link>
                     </div>
                   </div>
-                )} */}
+                )}
               </li>
             </ul>
           </>
@@ -103,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                     <SiTask className="text-white text-3xl" />
                   </div>
 
-                  {/* {tooltip === "task" && (
+                  {tooltip === "task" && (
                   <div className="absolute -right-5 translate-x-full mt-2 w-32 ">
                   <div className="py-1">
                   <Link
@@ -116,7 +116,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                     </Link>
                     </div>
                     </div>
-                    )} */}
+                    )}
                 </li>
               </Link>
             </ul>
