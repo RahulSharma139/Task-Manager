@@ -6,11 +6,12 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import LoginForm from "./pages/LoginForm";
-
 import SignupForm from "./pages/SignUpForm";
 import { AuthProvider } from "./components/context/authContext";
 import TaskTable from "./components/Taskmanager/TaskTable";
 import Page from "./components/Taskmanager/page";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/taskmanager" element={<Page />} />
           <Route path="/taskmanager/task" element={<TaskTable />} />
         </Routes>
+        <ToastContainer position="top-right" autoClose={3000} />
       </Router>
     </AuthProvider>
   );

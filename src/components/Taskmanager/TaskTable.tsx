@@ -368,7 +368,7 @@ const TaskTable: React.FC = () => {
   return (
     <Layout>
       <div className="bg-gradient-to-r from-[#213448] to-stone-900 min-h-screen py-6 md:py-10 px-4 text-white">
-        <div className="max-w-7xl mx-auto transform transition-all duration-300 ease-out scale-95 animate-fade-in">
+        <div className="max-w-7xl mx-auto pl-20 transform transition-all duration-300 ease-out scale-95 animate-fade-in">
           <h2 className="text-xl md:text-2xl font-semibold text-white mb-4">
             Task Manager
           </h2>

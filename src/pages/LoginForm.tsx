@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import SignUpImg from "../assets/signup-img.jpg";
 import { loginUser } from "../utils/loginUtils";
+import { toast } from "react-toastify";
 
 type LoginFormInputs = {
   email: string;
@@ -21,7 +22,8 @@ const LoginForm: React.FC = () => {
     try {
       const result = await loginUser(data);
       localStorage.setItem("token", result.token);
-      alert("Login successful!");
+      toast.success("Logged in successfully!");
+      console.log(localStorage.getItem("token"))
       navigate("/taskmanager");
     } catch (error) {
       console.error("Login error:", error);

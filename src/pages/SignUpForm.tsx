@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import SignUpImg from "../assets/signup-img.jpg";
 import { signupUser } from "../utils/signUpUtils";
+import { toast } from "react-toastify";
 
 type SignUpFormInputs = {
   username: string;
@@ -31,8 +32,8 @@ const SignupForm: React.FC = () => {
     try {
       const response = await signupUser(data);
       console.log("Signup success:", response.message);
-      alert("Registration successful!");
-      navigate("/taskmanager");
+      toast.success("User added successfully");
+      navigate("/login");
     } catch (error) {
       console.error("Signup error:", error);
       alert(error instanceof Error ? error.message : "Signup failed. Try again.");
